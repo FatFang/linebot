@@ -109,13 +109,25 @@ def handle_message(event):
         gemini_response = gemini_chat.send_message(user_text)
         reply_text = gemini_response.text.strip()
         reply = TextSendMessage(text=reply_text)
+    elif '天氣' in user_text:
+        try:
+            weather_url = "https://opendata.cwa.gov.tw/fileapi/v1/opendataapi/F-C0032-022?Authorization=rdec-key-123-45678-011121314&format=JSON"
+            weather_response = requests.get(weather_url, timeout=5)
+            weather_data = weather_response.json()
+
+            parameters = weather_data["cwaopendata"]["dataset"]["parameterSet"]["parameter"]
+            weather_text = "\n".join(p["parameterValue"] for p in parameters)
+
+            prompt = f"""根據下列氣象描述，請用一句自然語言分析「桃園市明日天氣」的摘要與建議：{weather_text}請回答：1. 是否要帶傘？2. 會熱嗎？3. 要穿什麼？4. 是否適合戶外活動？5.其他建議?"""
+
+            gemini_response = gemini_chat.send_message(prompt)
+            reply = TextSendMessage(text=gemini_response.text.strip())
+        except Exception as e:
+            reply = TextSendMessage(text="無法取得天氣資訊，請稍後再試。")
     else:
-        reply = TextSendMessage(text="我重複你的話:"+user_text)
+        reply = TextSendMessage(text="我重複你的話，因為你是光 你是神 你是唯一的神話:"+user_text)
 
     line_bot_api.reply_message(event.reply_token, reply)
-
-
-
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 8080))
