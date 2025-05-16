@@ -8,17 +8,17 @@ import requests
 import google.generativeai as genai
 
 # Gemini 初始化
-genai.configure(api_key="AIzaSyBGeDBaiupzch0WYImfJxj3KFCfzNVBpgY")  # 請替換為你自己的金鑰
-gemini_model = genai.GenerativeModel('gemini-2.0-pro-exp')
+genai.configure(api_key=".")  # 請替換為你自己的金鑰
+gemini_model = genai.GenerativeModel('gemini-2.0-flash-lite')
 gemini_chat = gemini_model.start_chat(history=[])
 
 
 app = Flask(__name__)
 
 # Channel Access Token
-line_bot_api = LineBotApi('whq/sw9WG1zp449bgSbnPJxocde7bXv0VLTKw8B+HPXHEwSbzX80QEzAW6xO8nPQs2tPo0eytGsDwr6AuntQSLJpmCrMmHGX/Hw9de6LTAJF3FA0KCOGQqED7Z0JhjFUVMzQGFKeCTw2YtqPqX6BaAdB04t89/1O/w1cDnyilFU=')
+line_bot_api = LineBotApi('.')
 # Channel Secret
-handler = WebhookHandler('70b8cfa99b593164fd403293c2d5e25c')
+handler = WebhookHandler('.')
 
 from flask import jsonify, request
 
