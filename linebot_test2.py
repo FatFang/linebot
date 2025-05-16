@@ -4,11 +4,11 @@ from linebot.exceptions import InvalidSignatureError
 from linebot.models import *
 import os
 from datetime import datetime
-
+import requests
 import google.generativeai as genai
 
 # Gemini 初始化
-genai.configure(api_key="...")
+genai.configure(api_key="AIzaSyBGeDBaiupzch0WYImfJxj3KFCfzNVBpgY")  # 請替換為你自己的金鑰
 gemini_model = genai.GenerativeModel('gemini-2.0-pro-exp')
 gemini_chat = gemini_model.start_chat(history=[])
 
@@ -16,9 +16,9 @@ gemini_chat = gemini_model.start_chat(history=[])
 app = Flask(__name__)
 
 # Channel Access Token
-line_bot_api = LineBotApi('...')
+line_bot_api = LineBotApi('whq/sw9WG1zp449bgSbnPJxocde7bXv0VLTKw8B+HPXHEwSbzX80QEzAW6xO8nPQs2tPo0eytGsDwr6AuntQSLJpmCrMmHGX/Hw9de6LTAJF3FA0KCOGQqED7Z0JhjFUVMzQGFKeCTw2YtqPqX6BaAdB04t89/1O/w1cDnyilFU=')
 # Channel Secret
-handler = WebhookHandler('...')
+handler = WebhookHandler('70b8cfa99b593164fd403293c2d5e25c')
 
 from flask import jsonify, request
 
@@ -128,6 +128,9 @@ def handle_message(event):
         reply = TextSendMessage(text="我重複你的話，因為你是光 你是神 你是唯一的神話:"+user_text)
 
     line_bot_api.reply_message(event.reply_token, reply)
+
+
+
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 8080))
